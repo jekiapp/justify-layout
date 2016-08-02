@@ -1,21 +1,37 @@
+/*
+ * Copyright 2016 Ahmad Muzakki
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
+
 package com.muzakki.ahmad.layout;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
 /**
- * Created by jeki on 8/1/16.
+ * JustifyLayout will arrange child elements horizontally with the same margin between them.
+ * If there is not enough space for next view new line will be added.
+ *
+ * User: Ahmad Muzakki
+ * Date: 2/8/16
  */
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class JustifyLayout extends ViewGroup {
     int horizontalSpacing = 20;
     int verticalSpacing = 20;
@@ -139,8 +155,6 @@ public class JustifyLayout extends ViewGroup {
             int childWidth = child.getMeasuredWidth();
             int childHeight = child.getMeasuredHeight();
             if((horizontalSpacing *2)+excess+lineWidth+childWidth>width){
-                int a = (horizontalSpacing *2)+excess+lineWidth+childWidth;
-                Log.i("newline","a:"+a+" excess:"+excess+" lineWidth:"+lineWidth+" child:"+childWidth+" width:"+width+" hosp:"+(horizontalSpacing *2));
                 lines.add(line);
                 linesGap.add((width-lineWidth)/(line.size()+1));
                 linesHeight.add(lineHeight);
@@ -178,7 +192,6 @@ public class JustifyLayout extends ViewGroup {
                         x+childWidth,
                         y+verticalMargin+childHeight
                 );
-                Log.i("jeki","y:"+y+" x:"+x+" childWidth:"+childWidth+" childHeight:"+childHeight);
                 x+=childWidth+gap;
             }
             y+=lineHeight+ verticalSpacing;
