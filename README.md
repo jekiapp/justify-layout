@@ -8,11 +8,11 @@ On potrait view:
 
 ![alt text][logo]
 
-[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Potrait"
+[logo]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/potrait.png "Potrait"
 
 
 On landscape view:
 
 ![alt text][logo]
 
-[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Landscape"
+[logo]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/landscape.png "Landscape"
