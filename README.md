@@ -6,13 +6,13 @@ If there is not enough space for next view new line will be added.
 
 On potrait view:
 
-![alt text][logo]
+![alt text][potrait]
 
-[logo]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/potrait.png "Potrait"
+[potrait]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/potrait.png "Potrait"
 
 
 On landscape view:
 
-![alt text][logo]
+![alt text][landscape]
 
-[logo]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/landscape.png "Landscape"
+[landscape]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/landscape.png "Landscape"
