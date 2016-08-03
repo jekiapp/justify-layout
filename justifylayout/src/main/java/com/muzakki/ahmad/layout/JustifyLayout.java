@@ -16,10 +16,14 @@
 
 package com.muzakki.ahmad.layout;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,9 +36,11 @@ import java.util.ArrayList;
  * User: Ahmad Muzakki
  * Date: 2/8/16
  */
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class JustifyLayout extends ViewGroup {
-    int horizontalSpacing = 20;
-    int verticalSpacing = 20;
+    int horizontalSpacing = 10;
+    int verticalSpacing = 0;
+    public int gravity = Gravity.CENTER_HORIZONTAL;
     ArrayList<ArrayList<View>> lines = new ArrayList<>();
     ArrayList<Integer> linesHeight = new ArrayList<>();
     ArrayList<Integer> linesGap = new ArrayList<>();
@@ -57,6 +63,7 @@ public class JustifyLayout extends ViewGroup {
         try {
             horizontalSpacing = a.getDimensionPixelSize(R.styleable.JustifyLayout_horizontalSpacing, dpToPx(horizontalSpacing));
             verticalSpacing = a.getDimensionPixelSize(R.styleable.JustifyLayout_verticalSpacing, dpToPx(verticalSpacing));
+            gravity = a.getInt(R.styleable.JustifyLayout_android_gravity,gravity);
         } finally {
             a.recycle();
         }
@@ -67,15 +74,13 @@ public class JustifyLayout extends ViewGroup {
         int sizeWidth = MeasureSpec.getSize(widthMeasureSpec) - getPaddingLeft() - getPaddingRight();
         int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
 
-        int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
         int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
 
-        int width = 0;
         int height = getPaddingTop() + getPaddingBottom();
 
         int lineWidth = 0;
         int lineHeight = 0;
-        int excess = 0;
+        int excess = 0,lineViewCount=0;
 
         int childCount = getChildCount();
 
@@ -112,9 +117,12 @@ public class JustifyLayout extends ViewGroup {
             );
 
             int childWidth = child.getMeasuredWidth();
-
+            lineViewCount++;
             if((2*horizontalSpacing) + excess+ lineWidth + childWidth > sizeWidth) {
-                width = Math.max(width, lineWidth);
+                if(verticalSpacing==0){ // if vertical spacing 0dp so it should be same as horizontalSpacing
+                    verticalSpacing=(sizeWidth-lineWidth)/lineViewCount;
+                }
+
                 lineWidth = childWidth;
                 excess = 0;
                 height += lineHeight+verticalSpacing;
@@ -128,24 +136,26 @@ public class JustifyLayout extends ViewGroup {
 
         }
 
+        setPadding(0,getPaddingTop()==0?verticalSpacing:getPaddingTop(),0,
+                getPaddingBottom()==0?verticalSpacing:getPaddingBottom());
+
         height += lineHeight;
-        width += getPaddingLeft() + getPaddingRight();
-        setMeasuredDimension(
-                (modeWidth == MeasureSpec.EXACTLY) ? sizeWidth : width,
+        setMeasuredDimension(sizeWidth,
                 (modeHeight == MeasureSpec.EXACTLY) ? sizeHeight : height);
 
     }
 
     @Override
     protected void onLayout(boolean changed, int t, int l, int b, int r) {
-            lines.clear();
-            linesHeight.clear();
-            linesGap.clear();
+        lines.clear();
+        linesHeight.clear();
+        linesGap.clear();
 
         int count = getChildCount();
         int width = getMeasuredWidth();
         int lineWidth = 0;
         int lineHeight = 0;
+        int normalGap = 0;
         int excess = 0;
         ArrayList<View> line = new ArrayList<>();
         for(int i=0;i<count;i++){
@@ -156,7 +166,7 @@ public class JustifyLayout extends ViewGroup {
             int childHeight = child.getMeasuredHeight();
             if((horizontalSpacing *2)+excess+lineWidth+childWidth>width){
                 lines.add(line);
-                linesGap.add((width-lineWidth)/(line.size()+1));
+                if(normalGap==0) normalGap = (width-lineWidth)/(line.size()+1);
                 linesHeight.add(lineHeight);
                 line = new ArrayList<>();
                 lineWidth= 0;
@@ -171,7 +181,7 @@ public class JustifyLayout extends ViewGroup {
         }
         // append the last line
         lines.add(line);
-        linesGap.add((width-lineWidth)/(line.size()+1));
+        int lastGap = (width - lineWidth) / (line.size() + 1);
         linesHeight.add(lineHeight);
 
         //draw the child
@@ -179,20 +189,47 @@ public class JustifyLayout extends ViewGroup {
         for(int i=0;i<lines.size();i++){
             ArrayList<View> lineViews = lines.get(i);
             lineHeight = linesHeight.get(i);
-            int gap = linesGap.get(i);
+            int gap;boolean right=false;
+            // we only deal gravity for the last line
+            if(i!=lines.size()-1){
+                gap=normalGap;
+            }else{
+                switch (gravity&Gravity.HORIZONTAL_GRAVITY_MASK){
+                    case Gravity.CENTER_HORIZONTAL:
+                    default:
+                        gap=lastGap;
+                        break;
+                    case Gravity.RIGHT:
+                        right=true;
+                    case Gravity.LEFT:
+                        gap=normalGap;
+                        break;
+                }
+            }
+            Log.i("jeki","gravity: "+gravity);
 
-            int x = gap;
+
+            int x =0, x2 = 0;
+            lineWidth = gap;
             for(View child:lineViews){
                 int childHeight = child.getMeasuredHeight();
                 int childWidth = child.getMeasuredWidth();
-                int verticalMargin = 0;//(lineHeight - childHeight) / 2;
+                int verticalMargin = (lineHeight - childHeight) / 2;
+
+                if(right){
+                    if(x==0) lineWidth+=childWidth;
+                    x=width-lineWidth;
+                }else{
+                    x=lineWidth;
+                }
 
                 child.layout(x,
                         y+verticalMargin,
                         x+childWidth,
                         y+verticalMargin+childHeight
                 );
-                x+=childWidth+gap;
+                //x+=childWidth+gap;
+                lineWidth+= childWidth+gap;
             }
             y+=lineHeight+ verticalSpacing;
         }
@@ -230,6 +267,7 @@ public class JustifyLayout extends ViewGroup {
         public LayoutParams(ViewGroup.LayoutParams source) {
             super(source);
         }
+
 
     }
 }
