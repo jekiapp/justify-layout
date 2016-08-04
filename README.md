@@ -51,14 +51,14 @@ then on **Android Studio** you can import the module with **File**->**New**->**I
 
 ![alt text][potrait]
 
-[potrait]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/potrait.png "Potrait"
+[potrait]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/potrait_preview.png "Potrait"
 
 
 ### Landscape preview 
 
 ![alt text][landscape]
 
-[landscape]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/landscape.png "Landscape"
+[landscape]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/landscape_preview.png "Landscape"
 
 #### Gravity support
 you can put `android:gravity="left"` or `android:gravity="right"` to align the last line of item. default is `center_horizontal`
