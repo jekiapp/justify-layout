@@ -47,15 +47,28 @@ then on **Android Studio** you can import the module with **File**->**New**->**I
 </ScrollView>
 ```
 
-On potrait view:
+### Potrait preview
 
 ![alt text][potrait]
 
 [potrait]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/potrait.png "Potrait"
 
 
-On landscape view:
+### Landscape preview 
 
 ![alt text][landscape]
 
 [landscape]: https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/landscape.png "Landscape"
+
+#### Gravity support
+you can put `android:gravity="left"` or `android:gravity="right"` to align the last line of item. default is `center_horizontal`
+```xml
+    <com.muzakki.ahmad.layout.JustifyLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:background="@android:color/holo_red_light"
+        />
+```
+#### Result
+![alt text](https://raw.githubusercontent.com/ahmadmuzakki29/justify-layout/master/justifylayout/src/main/res/drawable/align_right.png "Align right")
