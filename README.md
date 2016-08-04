@@ -3,6 +3,49 @@ JustifyLayout will arrange child elements horizontally with the same margin betw
 
 If there is not enough space for next view new line will be added.
 
+## Usage
+`git clone https://github.com/ahmadmuzakki29/justify-layout`
+
+then on **Android Studio** you can import the module with **File**->**New**->**Import Module** and choose module **:justifylayout** inside downloaded folder
+
+### Quick snippet : 
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.muzakki.ahmad.layout.JustifyLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:verticalSpacing="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_light"
+        >
+        <button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Button 1"
+        />
+        <button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Button 2"
+        />
+        <button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Button 3"
+        />
+        <button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Button 4"
+        />
+    </com.muzakki.ahmad.layout.JustifyLayout>
+</ScrollView>
+```
 
 On potrait view:
 
